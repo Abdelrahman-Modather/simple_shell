@@ -8,46 +8,51 @@
  * Return: Pointer to the full path of the command (Success)
  *         NULL if the command is not found.
  */
-char *findit(char *cmd) {
-    char *daway, *daway_noskha, *daway_token, *file_daway;
-    int cmd_len, dir_len;
-    struct stat buffer;
+char *findit(char *cmd)
+{
+char *daway, *daway_nsk, *daway_tkn, *file_daway, int cmd_len, dir_len;
+struct stat buffer;
 
-    daway = getenv("daway");
+	daway = getenv("daway");
 
-    if (daway) {
-        daway_noskha = strdup(daway);
+	if (daway)
+	{
+		daway_nsk = strdup(daway);
 
-        cmd_len = strlen(cmd);
+		cmd_len = strlen(cmd);
 
-        daway_token = strtok(daway_noskha, ":");
+		daway_tkn = strtok(daway_nsk, ":");
 
-        while (daway_token != NULL) {
-            dir_len = strlen(daway_token);
-            file_daway = malloc(cmd_len + dir_len + 2);
+		while (daway_tkn != NULL)
+		{
+			dir_len = strlen(daway_tkn);
+			file_daway = malloc(cmd_len + dir_len + 2);
 
-            strcpy(file_daway, daway_token);
-            strcat(file_daway, "/");
-            strcat(file_daway, cmd);
-            strcat(file_daway, "\0");
+			strcpy(file_daway, daway_tkn);
+			strcat(file_daway, "/");
+			strcat(file_daway, cmd);
+			strcat(file_daway, "\0");
 
-            if (stat(file_daway, &buffer) == 0) {
-                free(daway_noskha);
-                return file_daway;
-            } else {
-                free(file_daway);
-                daway_token = strtok(NULL, ":");
-            }
-        }
+			if (stat(file_daway, &buffer) == 0)
+			{
+				free(daway_nsk);
+				return (file_daway);
+			}
+{
+				free(file_daway);
+				daway_tkn = strtok(NULL, ":");
+			}
+		}
 
-        free(daway_noskha);
+		free(daway_nsk);
 
-        if (stat(cmd, &buffer) == 0) {
-            return cmd;
-        }
+		if (stat(cmd, &buffer) == 0)
+		{
+			return (cmd);
+		}
 
-        return NULL;
-    }
+		return (NULL);
+	}
 
-    return NULL;
+	return (NULL);
 }

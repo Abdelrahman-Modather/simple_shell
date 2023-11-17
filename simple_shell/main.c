@@ -1,5 +1,3 @@
-#include "main.h"
-
 /**
  * main - Entry point of the shell program.
  *
@@ -8,48 +6,49 @@
  *
  * Return: Always 0.
  */
+
+#include "main.h"
+
 int main(int ac, char **argv)
 {
-    char *lainepoiter = NULL, *lainepoiter_noskha = NULL;
-    char *prmt = "the prmt is $ ";
-    const char *delim = " \n";
-    ssize_t lain_ragea;
-    size_t s = 0;
-    char *token;
-    int i;
-    (void)ac;
-    int howmnytokenz = 0;
+char *lptr = NULL, *lptr_nsk = NULL, char *prmt = "$ ", ssize_t lin_rga, int i;
+const char *dl = " \n", int adadtok = 0, size_t s = 0, char *tkn, (void)ac;
 
-    while (1)
-    {
-        printf("%s", prmt);
-        lain_ragea = getline(&lainepoiter, &s, stdin);
-        if (lain_ragea == -1)
-        {
-            printf("end of file <ctrl+d>\n");
-            return (-1);
-        }
-
-        // Allocate memory for the duplicate of the input string
-        lainepoiter_noskha = malloc(sizeof(char) * lain_ragea);
-        if (lainepoiter_noskha == NULL)
-        {
-            perror("tsh: memory allocation error");
-            return (-1);
-        }
-        strcpy(lainepoiter_noskha, lainepoiter);
-
-        // Count the number of tokens in the input string
-        token = strtok(lainepoiter, delim);
-        while (token != NULL)
-        {
-            howmnytokenz++;
-            token = strtok(NULL, delim);
-        }
-        howmnytokenz++;
-
-        // Allocate memory for the array of tokens (argv)
-        argv = malloc(sizeof(char *) * howmnytokenz);
-
-        // Tokenize the duplicated input string and fill the argv array
-        token = strtok(lainepo
+	while (1)
+	{
+		printf("%s", prmt);
+		lin_rga = getline(&lptr, &s, stdin);
+		if (lin_rga == -1)
+		{
+			printf("end of file <ctrl+d>\n");
+			return (-1);
+			}
+		lptr_nsk = malloc(sizeof(char) * lin_rga);
+		if (lptr_nsk == NULL)
+		{
+			perror("tsh: memory allocation error");
+			return (-1);
+		}
+		strcpy(lptr_nsk, lptr);
+		tkn = strtok(lptr, dl);
+		while (tkn != NULL)
+		{
+			adadtok++;
+			tkn = strtok(NULL, dl);
+		}
+		adadtok++;
+		argv = malloc(sizeof(char *) * adadtok);
+		tkn = strtok(lptr_nsk, dl);
+		for (i = 0; tkn != NULL; i++)
+		{
+			argv[i] = malloc(sizeof(char) * strlen(tkn));
+			strcpy(argv[i], tkn);
+			tkn = strtok(NULL, dl);
+		}
+		argv[i] = NULL;
+		execmd(argv);
+	}
+	free(lptr_nsk);
+	free(lptr);
+	return (0);
+}
