@@ -1,5 +1,13 @@
 #include "main.h"
 
+/**
+ * main - Entry point of the shell program.
+ *
+ * @ac: Number of arguments.
+ * @argv: Array of strings containing the arguments.
+ *
+ * Return: Always 0.
+ */
 int main(int ac, char **argv)
 {
     char *lainepoiter = NULL, *lainepoiter_noskha = NULL;
@@ -14,7 +22,7 @@ int main(int ac, char **argv)
 
     while (1)
     {
-        printf ("%s", prmt);
+        printf("%s", prmt);
         lain_ragea = getline(&lainepoiter, &s, stdin);
         if (lain_ragea == -1)
         {
@@ -22,6 +30,7 @@ int main(int ac, char **argv)
             return (-1);
         }
 
+        // Allocate memory for the duplicate of the input string
         lainepoiter_noskha = malloc(sizeof(char) * lain_ragea);
         if (lainepoiter_noskha == NULL)
         {
@@ -30,8 +39,8 @@ int main(int ac, char **argv)
         }
         strcpy(lainepoiter_noskha, lainepoiter);
 
+        // Count the number of tokens in the input string
         token = strtok(lainepoiter, delim);
-
         while (token != NULL)
         {
             howmnytokenz++;
@@ -39,24 +48,8 @@ int main(int ac, char **argv)
         }
         howmnytokenz++;
 
+        // Allocate memory for the array of tokens (argv)
         argv = malloc(sizeof(char *) * howmnytokenz);
 
-        token = strtok(lainepoiter_noskha, delim);
-
-        for (i = 0; token != NULL; i++)
-        {
-            argv[i] = malloc(sizeof(char) * strlen(token));
-            strcpy(argv[i], token);
-
-            token = strtok(NULL, delim);
-        }
-        argv[i] = NULL;
-
-        execmd(argv);
-    }
-
-    free(lainepoiter_noskha);
-    free(lainepoiter);
-
-    return (0);
-}
+        // Tokenize the duplicated input string and fill the argv array
+        token = strtok(lainepo
